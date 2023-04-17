@@ -20,7 +20,7 @@ public class Permission {
     private Integer id;
 
     @Enumerated(EnumType.ORDINAL)
-    private LeaveType leaveType;
+    private LeaveType leave_Type;
 
     @Column (nullable = false)
     private String start_leave;

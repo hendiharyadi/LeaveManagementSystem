@@ -5,7 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.security.Timestamp;
+import java.sql.Timestamp;
+
 
 @Entity
 @Data
