@@ -6,7 +6,6 @@ import mcc72.Server.models.entity.Overtime;
 import mcc72.Server.services.OvertimeService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,35 +14,35 @@ import java.util.List;
 @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MANAGER')")
 public class OvertimeController {
 
-    private OvertimeService os;
+    private OvertimeService overtimeService;
 
     @PreAuthorize("hasAnyAuthority('READ_USER', 'READ_ADMIN', 'READ_MANAGER')")
     @GetMapping
     public Object getAll() {
-        return os.getAll();
+        return overtimeService.getAll();
     }
 
     @GetMapping("/manager")
     public List<Overtime> findByManager(){
-        return os.findByManager();
+        return overtimeService.findByManager();
     }
 
     @PreAuthorize("hasAnyAuthority('CREATE_USER', 'CREATE_MANAGER')")
     @PostMapping
     public Overtime create(@RequestBody OvertimeDto overtime){
-        Overtime ot = os.create(overtime);
-        os.sendRequestMail(overtime);
+        Overtime ot = overtimeService.create(overtime);
+        overtimeService.sendRequestMail(overtime);
         return ot;
     }
 
     @PreAuthorize("hasAuthority('UPDATE_MANAGER')")
     @PutMapping("/{id}")
     public Overtime update(@PathVariable Integer id, @RequestBody OvertimeDto overtime){
-        Overtime ot = os.update(id, overtime);
+        Overtime ot = overtimeService.update(id, overtime);
         if (overtime.getStatus().equals(true)){
-            os.sendConfirmationMail(id, overtime);
+            overtimeService.sendConfirmationMail(id, overtime);
         } else {
-            os.sendConfirmationMail(id, overtime);
+            overtimeService.sendConfirmationMail(id, overtime);
         }
         return ot;
     }
@@ -51,12 +50,12 @@ public class OvertimeController {
     @PreAuthorize("hasAnyAuthority('READ_MANAGER', 'READ_ADMIN')")
     @GetMapping("/{id}")
     public Overtime getById(@PathVariable int id){
-        return os.getById(id);
+        return overtimeService.getById(id);
     }
 
     @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     @DeleteMapping("/{id}")
     public Overtime delete(@PathVariable int id){
-        return os.delete(id);
+        return overtimeService.delete(id);
     }
 }

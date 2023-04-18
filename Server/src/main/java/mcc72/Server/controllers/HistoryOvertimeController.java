@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,15 +16,15 @@ import java.util.List;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER', 'ROLE_USER')")
 public class HistoryOvertimeController {
 
-    private HistoryOvertimeService hos;
+    private HistoryOvertimeService historyOvertimeService;
 
     @GetMapping()
     public List<HistoryOvertime> getHistoryOvertimes(){
-        return hos.getAll();
+        return historyOvertimeService.getAll();
     }
 
     @GetMapping("/{id}")
     public HistoryOvertime getDetail(@PathVariable int id){
-        return hos.getById(id);
+        return historyOvertimeService.getById(id);
     }
 }

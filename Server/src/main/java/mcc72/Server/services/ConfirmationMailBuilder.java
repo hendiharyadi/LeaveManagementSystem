@@ -13,7 +13,6 @@ import org.thymeleaf.context.Context;
 public class ConfirmationMailBuilder {
 
     private TemplateEngine templateEngine;
-    private UserRepository ur;
 
     public String build(String firstName, LeaveType leaveType, Status status){
         Context context = new Context();

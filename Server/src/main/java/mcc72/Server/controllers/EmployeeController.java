@@ -18,7 +18,7 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @RequestMapping("employee")
-@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN', 'ROLE_USER')")
 public class EmployeeController {
 
     private EmployeeService employeeService;

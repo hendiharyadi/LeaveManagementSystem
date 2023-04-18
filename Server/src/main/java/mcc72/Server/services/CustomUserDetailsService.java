@@ -19,11 +19,11 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserRepository ur;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-        User user = ur.findByUsername(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(
                         () -> new UsernameNotFoundException("User is not found.")
                 );

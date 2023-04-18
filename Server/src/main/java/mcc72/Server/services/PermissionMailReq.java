@@ -20,6 +20,6 @@ public class PermissionMailReq {
         context.setVariable("end_leave", end);
         context.setVariable("note", note);
         context.setVariable("first_name", firstName);
-        return templateEngine.process("permissioneqmail", context);
+        return templateEngine.process("permissionreqmail", context);
     }
 }

@@ -5,7 +5,6 @@ import mcc72.Server.models.entity.Privilege;
 import mcc72.Server.services.PrivilegeService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 

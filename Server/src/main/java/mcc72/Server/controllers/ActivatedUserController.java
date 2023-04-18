@@ -12,14 +12,14 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @RequestMapping("activatedUser")
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_MANAGER')")
 public class ActivatedUserController {
 
-    private UserService us;
+    private UserService userService;
 
-    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER', 'READ_MANAGER')")
     @GetMapping
     public Map<String, Object> home(){
-        return us.getLoginResponse();
+        return userService.getLoginResponse();
     }
 }

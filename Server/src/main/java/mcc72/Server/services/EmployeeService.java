@@ -29,20 +29,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class EmployeeService {
 
-    private EmployeeRepository er;
-    private ProjectRepository pr;
-    private final UserRepository ur;
+    private EmployeeRepository employeeRepository;
+    private ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
     public List<Employee> findAll(){
-        if(er.findAll().isEmpty()){
+        if(employeeRepository.findAll().isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Data Available.");
         }
-        return er.findAll();
+        return employeeRepository.findAll();
     }
 
     public Map<String, Object> getEmployee(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(auth.getName()). get();
+        User user = userRepository.findByUsername(auth.getName()). get();
         Map<String, Object> m = new HashMap<>();
         Employee employee = user.getEmployee();
         m.put("id", employee.getId());
@@ -62,7 +62,7 @@ public class EmployeeService {
     }
 
     public List<Map<String, Object>> getAllMap(){
-        return er.findAll().stream().map(employee -> {
+        return employeeRepository.findAll().stream().map(employee -> {
             Map<String, Object> m = new HashMap<>();
             m.put("id", employee.getId());
             m.put("first_name", employee.getFirst_name());
@@ -82,10 +82,10 @@ public class EmployeeService {
     }
 
     public Object findById(Integer id){
-        if(!er.existsById(id)){
+        if(!employeeRepository.existsById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not existed.");
         }
-        Employee employee = er.findById(id).get();
+        Employee employee = employeeRepository.findById(id).get();
         Map<String, Object> m = new HashMap<>();
         m.put("id", employee.getId());
         m.put("first_name", employee.getFirst_name());
@@ -104,7 +104,7 @@ public class EmployeeService {
     }
 
     public Employee insert(UserDto e){
-        if(er.findByEmail(e.getEmail()).isPresent()){
+        if(employeeRepository.findByEmail(e.getEmail()).isPresent()){
             throw new ResponseStatusException(HttpStatus.FOUND, "Data is existed.");
         }
         Employee employee = new Employee();
@@ -113,9 +113,9 @@ public class EmployeeService {
         employee.setEmail(e.getEmail());
         employee.setPhone_number(e.getPhone_number());
         if(e.getManager_id() != null){
-            employee.setManager(er.findById(e.getManager_id()).get());
+            employee.setManager(employeeRepository.findById(e.getManager_id()).get());
         }
-        return er.save(employee);
+        return employeeRepository.save(employee);
     }
 
     public Employee update(Integer id, UserDto e){
@@ -127,34 +127,34 @@ public class EmployeeService {
         employee.setEmail(e.getEmail());
         employee.setPhone_number(e.getPhone_number());
         if (e.getManager_id() != null){
-            employee.setManager(er.findById(e.getManager_id()).get());
+            employee.setManager(employeeRepository.findById(e.getManager_id()).get());
         }
-        return er.save(employee);
+        return employeeRepository.save(employee);
     }
 
     public String deleteById(Integer id){
-        Employee e = er.findById(id).get();
-        er.delete(e);
+        Employee e = employeeRepository.findById(id).get();
+        employeeRepository.delete(e);
         return "Success";
     }
 
     public List<Employee> findMyStaff(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User manager = ur.findByUsername(auth.getName()).get();
+        User manager = userRepository.findByUsername(auth.getName()).get();
         return manager.getEmployee().getManagers();
     }
 
     public List<Permission> findMyStaffPermission(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User manager = ur.findByUsername(auth.getName()).get();
+        User manager = userRepository.findByUsername(auth.getName()).get();
         return manager.getEmployee().getPermissions();
     }
 
     public Object addEmployeeToProject(EmployeeProjectDto empDto) {
-        Project project = pr.findById(empDto.getProject_id()).get();
-        Employee employee = er.findById(empDto.getEmployee_id()).get();
+        Project project = projectRepository.findById(empDto.getProject_id()).get();
+        Employee employee = employeeRepository.findById(empDto.getEmployee_id()).get();
         project.setEmployeeProject(Collections.singletonList(employee));
-        pr.save(project);
+        projectRepository.save(project);
         Map<String, Object> map = new HashMap<>();
         map.put("employee", employee);
         map.put("employee project", employee.getEmployeeProject());
@@ -163,7 +163,7 @@ public class EmployeeService {
 
     public StockResponse getUserStockLeave(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User manager = ur.findByUsername(auth.getName()).get();
+        User manager = userRepository.findByUsername(auth.getName()).get();
         StockResponse stockResponse = new StockResponse();
         stockResponse.setStock_available(manager.getEmployee().getStockLeave().getStock_available());
         return stockResponse;

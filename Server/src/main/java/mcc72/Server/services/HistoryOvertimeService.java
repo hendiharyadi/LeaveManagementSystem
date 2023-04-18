@@ -20,35 +20,35 @@ import java.util.List;
 @AllArgsConstructor
 public class HistoryOvertimeService {
 
-    private HistoryOvertimeRepository hor;
-    private UserRepository ur;
+    private HistoryOvertimeRepository historyOvertimeRepository;
+    private UserRepository userRepository;
 
     public List<HistoryOvertime> getAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
-        return hor.orderHistoryPermission(user.getEmployee().getId());
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        return historyOvertimeRepository.orderHistoryPermission(user.getEmployee().getId());
     }
 
     public HistoryOvertime getById(int id){
-        return hor.findById(id)
+        return historyOvertimeRepository.findById(id)
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
 
     public HistoryOvertime create(Overtime historyOvertime){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
+        User user = userRepository.findByUsername(authentication.getName()).get();
         HistoryOvertime ho = new HistoryOvertime();
         ho.setOvertime(historyOvertime);
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
         ho.setDate_history(ts);
         ho.setEmployee(user.getEmployee());
-        return hor.save(ho);
+        return historyOvertimeRepository.save(ho);
     }
 
     public HistoryOvertime update(int id, OvertimeDto historyOvertime){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
+        User user = userRepository.findByUsername(authentication.getName()).get();
         HistoryOvertime ho = getById(id);
         ho.setEmployee(user.getEmployee());
         return ho;
@@ -56,7 +56,7 @@ public class HistoryOvertimeService {
 
     public HistoryOvertime delete (int id) {
         HistoryOvertime historyOvertime = getById(id);
-        hor.delete(historyOvertime);
+        historyOvertimeRepository.delete(historyOvertime);
         return historyOvertime;
     }
 }

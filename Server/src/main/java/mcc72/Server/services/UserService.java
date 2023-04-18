@@ -28,15 +28,15 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
 
     private BCryptPasswordEncoder passwordEncoder;
-    private UserRepository ur;
-    private RoleRepository rr;
-    private EmployeeRepository er;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private EmployeeRepository employeeRepository;
     private MailContentBuilder mailContentBuilder;
     private JavaMailSender mailSender;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = ur.findByUsername(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(
                         () -> new UsernameNotFoundException("User not found!")
                 );
@@ -56,7 +56,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<Map<String, Object>> getAllMap(){
-        return ur.findAll().stream().map(role -> {
+        return userRepository.findAll().stream().map(role -> {
             Map<String, Object> m = new HashMap<>();
             m.put("userId", role.getId());
             m.put("userName", role.getUsername());
@@ -70,7 +70,7 @@ public class UserService implements UserDetailsService {
     public Map<String, Object> getLoginResponse(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> m = new HashMap<>();
-        m.put("userId", ur.findByUsername(auth.getName()).get().getId());
+        m.put("userId", userRepository.findByUsername(auth.getName()).get().getId());
         m.put("name", auth.getName());
         m.put("authorities", auth.getAuthorities().toString());
         return m;
@@ -83,15 +83,15 @@ public class UserService implements UserDetailsService {
         ue.setIsActive(false);
         ue.setVerificationCode(verificationCode);
         ue.setPassword(passwordEncoder.encode(u.getPassword()));
-        ue.setUserRole(Collections.singletonList(rr.findById(u.getRole_id()).get()));
+        ue.setUserRole(Collections.singletonList(roleRepository.findById(u.getRole_id()).get()));
         ue.setFailedAttempt(0);
-        ue.setEmployee(er.findByEmail(u.getEmail()).get());
-        return ur.save(ue);
+        ue.setEmployee(employeeRepository.findByEmail(u.getEmail()).get());
+        return userRepository.save(ue);
     }
 
     public void updateAttempt(User u){
-        User ue = ur.findByUsername(u.getUsername()).get();
-        ur.setFailedAttemptForUser(ue.getFailedAttempt() + 1, ue.getId());
+        User ue = userRepository.findByUsername(u.getUsername()).get();
+        userRepository.setFailedAttemptForUser(ue.getFailedAttempt() + 1, ue.getId());
     }
 
     public void senderVerifyMail(UserDto user){
@@ -106,12 +106,12 @@ public class UserService implements UserDetailsService {
     }
 
     public Boolean verify(String username, String token){
-        String tokenDB = ur.findByUsername(username).get().getVerificationCode();
-        int id = ur.findByUsername(username).get().getId();
-        User user = ur.findByUsername(username).get();
+        String tokenDB = userRepository.findByUsername(username).get().getVerificationCode();
+        int id = userRepository.findByUsername(username).get().getId();
+        User user = userRepository.findByUsername(username).get();
         user.setIsActive(true);
         if(token.equalsIgnoreCase(tokenDB)){
-            ur.save(user);
+            userRepository.save(user);
             return true;
         } else {
             return false;
@@ -119,7 +119,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getManagers(){
-        Role role = rr.findById(2).get();
-        return ur.findByUserRole(role);
+        Role role = roleRepository.findById(2).get();
+        return userRepository.findByUserRole(role);
     }
 }

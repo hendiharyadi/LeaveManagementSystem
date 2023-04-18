@@ -14,7 +14,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,31 +23,28 @@ import java.util.Optional;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private BCryptPasswordEncoder passwordEncoder;
-    private UserRepository ur;
+    private UserRepository userRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        Optional<User> optional = ur.findByUsername(username);
+        Optional<User> optional = userRepository.findByUsername(username);
         if (optional.isPresent()) {
             User user = optional.get();
             if (!user.getIsActive()) {
                 throw new UsernameNotFoundException("User not activated!!!");
             }
-            //if attemp failed > 3 throw new error account locked
             if (user.getFailedAttempt() >= 3) {
                 throw new BadCredentialsException("Account locked. Contact developer for more information.");
             }
             if (passwordEncoder.matches(password, user.getPassword())) {
                 List<GrantedAuthority> authorities = getAuthorities(user.getUserRole());
                 authorities.add(new SimpleGrantedAuthority(user.getUserRole().get(0).getName()));
-
 //                 ur.setFailedAttemptForUser(0, user.getId());
-
                 return new UsernamePasswordAuthenticationToken(username, password, authorities);
             } else {
-                ur.setFailedAttemptForUser(user.getFailedAttempt() + 1, user.getId());
+                userRepository.setFailedAttemptForUser(user.getFailedAttempt() + 1, user.getId());
                 System.out.println("updateAttempt success");
                 throw new BadCredentialsException("Invalid password");
             }
@@ -67,11 +63,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         roles
                 .forEach(
                         role -> {
-//                            String roleName = "ROLE_" + role.getName().toUpperCase();
                             authorities.add(new SimpleGrantedAuthority(role.getName()));
                             role.getPrivileges().forEach(
                                     privilege -> {
-//                                        String privilegeName = privilege.getName().toUpperCase();
                                         authorities.add(new SimpleGrantedAuthority(privilege.getName()));
                                     }
                             );

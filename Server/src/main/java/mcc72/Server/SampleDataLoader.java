@@ -16,27 +16,27 @@ import java.util.List;
 @Component
 public class SampleDataLoader implements CommandLineRunner {
 
-    private final RoleRepository rr;
-    private final PrivilegeRepository pr;
+    private final RoleRepository roleRepository;
+    private final PrivilegeRepository privilegeRepository;
 
     @Override
     public void run(String... args) throws Exception{
-        if (rr.findByName("ROLE_USER").isPresent()) {
+        if (roleRepository.findByName("ROLE_USER").isPresent()) {
             System.out.println("ROLE_USER data already exist.");
         } else {
             List<Role> roles = new ArrayList<>();
             roles.add(new Role(0, "ROLE_USER", null, null));
             roles.add(new Role(0, "ROLE_MANAGER", null, null));
             roles.add(new Role(0, "ROLE_ADMIN", null, null));
-            rr.saveAll(roles);
+            roleRepository.saveAll(roles);
         }
 
-        if (pr.findByName("CREATE_USER").isPresent()) {
+        if (privilegeRepository.findByName("CREATE_USER").isPresent()) {
             System.out.println("CREATE_USER data already exist.");
         } else {
-            List<Role> rolesUser = Arrays.asList(rr.findByName("ROLE_USER").get());
-            List<Role> rolesAdmin = Arrays.asList(rr.findByName("ROLE_ADMIN").get());
-            List<Role> rolesManager = Arrays.asList(rr.findByName("ROLE_MANAGER").get());
+            List<Role> rolesUser = Arrays.asList(roleRepository.findByName("ROLE_USER").get());
+            List<Role> rolesAdmin = Arrays.asList(roleRepository.findByName("ROLE_ADMIN").get());
+            List<Role> rolesManager = Arrays.asList(roleRepository.findByName("ROLE_MANAGER").get());
             List<Privilege> privileges = new ArrayList<>();
             privileges.add(new Privilege(0, "CREATE_USER", rolesUser));
             privileges.add(new Privilege(0, "READ_USER", rolesUser));
@@ -52,7 +52,7 @@ public class SampleDataLoader implements CommandLineRunner {
             privileges.add(new Privilege(0, "READ_ADMIN", rolesAdmin));
             privileges.add(new Privilege(0, "UPDATE_ADMIN", rolesAdmin));
             privileges.add(new Privilege(0, "DELETE_ADMIN", rolesAdmin));
-            pr.saveAll(privileges);
+            privilegeRepository.saveAll(privileges);
         }
     }
 }

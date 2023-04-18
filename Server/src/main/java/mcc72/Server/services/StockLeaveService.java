@@ -17,40 +17,40 @@ import java.util.List;
 @AllArgsConstructor
 public class StockLeaveService {
 
-    private StockLeaveRepository slr;
-    private EmployeeRepository er;
-    private UserRepository ur;
+    private StockLeaveRepository stockLeaveRepository;
+    private EmployeeRepository employeeRepository;
+    private UserRepository userRepository;
 
     public List<StockLeave> getAll(){
-        return slr.findAll();
+        return stockLeaveRepository.findAll();
     }
 
     public StockLeave getById(int id){
-        return slr.findById(id)
+        return stockLeaveRepository.findById(id)
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
 
     public StockLeave create(UserDto stockLeave){
         StockLeave sl = new StockLeave();
         sl.setStock_available(12);
-        sl.setEmployee(er.findByEmail(stockLeave.getEmail()).get());
-        return slr.save(sl);
+        sl.setEmployee(employeeRepository.findByEmail(stockLeave.getEmail()).get());
+        return stockLeaveRepository.save(sl);
     }
 
     public StockLeave update(int id, StockLeave stockLeave){
         getById(id);
         stockLeave.setId(id);
-        return slr.save(stockLeave);
+        return stockLeaveRepository.save(stockLeave);
     }
 
     public StockLeave delete (int id){
         StockLeave stockLeave = getById(id);
-        slr.delete(stockLeave);
+        stockLeaveRepository.delete(stockLeave);
         return stockLeave;
     }
 
     public void updateCuti(int id, Integer permission) {
-        User user = ur.findById(id).get();
-        er.setStockLeave(user.getEmployee().getStockLeave().getStock_available() - permission, user.getEmployee().getId());
+        User user = userRepository.findById(id).get();
+        employeeRepository.setStockLeave(user.getEmployee().getStockLeave().getStock_available() - permission, user.getEmployee().getId());
     }
 }

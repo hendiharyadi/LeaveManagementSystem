@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,15 +16,15 @@ import java.util.List;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER', 'ROLE_USER')")
 public class HistoryPermissionController {
 
-    private HistoryPermissionService hps;
+    private HistoryPermissionService historyPermissionService;
 
     @GetMapping()
     public List<HistoryPermission> getHistoryPermission() {
-        return hps.getAll();
+        return historyPermissionService.getAll();
     }
 
     @GetMapping("/{id}")
     public HistoryPermission getDetail(@PathVariable int id){
-        return hps.getById(id);
+        return historyPermissionService.getById(id);
     }
 }

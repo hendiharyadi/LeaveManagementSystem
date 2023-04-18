@@ -20,24 +20,24 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RoleService {
 
-    private RoleRepository rr;
-    private UserRepository ur;
+    private RoleRepository roleRepository;
+    private UserRepository userRepository;
 
     public List<Role> findAll(){
-        if(rr.findAll().isEmpty()){
+        if(roleRepository.findAll().isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data available.");
         }
 
-        for(Role role : rr.findAll()){
+        for(Role role : roleRepository.findAll()){
             role.getName();
         }
 
-        return rr.findAll();
+        return roleRepository.findAll();
     }
 
     public List<Map<String, Object>> getAllMap(){
 
-        return rr.findAll().stream().map(role -> {
+        return roleRepository.findAll().stream().map(role -> {
             Map<String, Object> m = new HashMap<>();
             m.put("roleId", role.getId());
             m.put("roleName", role.getName());
@@ -47,8 +47,8 @@ public class RoleService {
 
     public Object getRoleManager(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
-        Role role = rr.findById(2).get();
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        Role role = roleRepository.findById(2).get();
         return role.getUserRole().stream().map(usr -> {
             Map<String, Object> m = new HashMap<>();
             m.put("id", usr.getEmployee().getId());
@@ -69,33 +69,33 @@ public class RoleService {
     }
 
     public Role findById(Integer id){
-        if (!rr.existsById(id)){
+        if (!roleRepository.existsById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not existed.");
         }
-        return rr.findById(id).get();
+        return roleRepository.findById(id).get();
     }
 
     public Role insert(Role r){
-        if(rr.existsById(r.getId())){
+        if(roleRepository.existsById(r.getId())){
             throw new ResponseStatusException(HttpStatus.FOUND, "Data is existed.");
         }
 
-        return rr.save(r);
+        return roleRepository.save(r);
     }
 
     public Role update (Role r){
-        if(!rr.existsById(r.getId())){
+        if(!roleRepository.existsById(r.getId())){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not existed.");
         }
-        return rr.save(r);
+        return roleRepository.save(r);
     }
 
     public String deleteById(Integer id){
-        if(!rr.existsById(id)){
+        if(!roleRepository.existsById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not existed.");
         }
         Role r = findById(id);
-        rr.deleteById(id);
+        roleRepository.deleteById(id);
         return "Delete for " + r.getName() + "success.";
     }
 }

@@ -25,19 +25,19 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProjectService {
 
-    private ProjectRepository pr;
-    private final EmployeeRepository er;
-    private UserRepository ur;
+    private ProjectRepository projectRepository;
+    private final EmployeeRepository employeeRepository;
+    private UserRepository userRepository;
 
     public List<Project> getAllProject(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
-        return pr.orderProject(user.getEmployee().getId());
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        return projectRepository.orderProject(user.getEmployee().getId());
     }
 
     public Object getAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
+        User user = userRepository.findByUsername(authentication.getName()).get();
         return user.getEmployee().getProjects().stream().map(e -> {
             Map<String, Object> map = new HashMap<>();
             map.put("id", e.getId());
@@ -50,19 +50,19 @@ public class ProjectService {
     }
 
     public List<Employee> getMemberProject(int id) {
-        Project project = pr.findById(id).get();
+        Project project = projectRepository.findById(id).get();
         return project.getEmployeeProject();
     }
 
     public Project getById(int id) {
-        return pr.findById(id)
+        return projectRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
 
     @Transactional
     public Project create(ProjectDto projectDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
+        User user = userRepository.findByUsername(authentication.getName()).get();
         Project project = new Project();
         project.setManager(user.getEmployee());
         project.setName(projectDto.getName());
@@ -70,33 +70,33 @@ public class ProjectService {
         project.setEnd_project(projectDto.getEnd_project());
         List<Employee> employees = new ArrayList<>();
         for(Integer employee : projectDto.getEmployees()){
-            employees.add(er.findById(employee).get());
+            employees.add(employeeRepository.findById(employee).get());
         }
         project.setEmployeeProject(employees);
-        pr.save(project);
+        projectRepository.save(project);
         return project;
     }
 
     public List<Employee> selectByManager(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
-        return pr.getEmployeeManager(user.getEmployee().getId());
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        return projectRepository.getEmployeeManager(user.getEmployee().getId());
     }
 
     public Project update(int id, ProjectDto projectDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
-        Project project = pr.findById(id).get();
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        Project project = projectRepository.findById(id).get();
         getById(id);
         project.setName(projectDto.getName());
-        return pr.save(project);
+        return projectRepository.save(project);
     }
 
 
     public Project deleteProjectById(int id) {
-        Project project = pr.findById(id).get();
+        Project project = projectRepository.findById(id).get();
         System.out.println("Project ID : " + id);
-        pr.deleteById(id);
+        projectRepository.deleteById(id);
         return project;
     }
 }

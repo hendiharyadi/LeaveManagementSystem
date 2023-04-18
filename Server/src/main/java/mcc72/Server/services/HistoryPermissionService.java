@@ -20,17 +20,17 @@ import java.util.List;
 @AllArgsConstructor
 public class HistoryPermissionService {
 
-    private HistoryPermissionRepository hpr;
-    private UserRepository ur;
+    private HistoryPermissionRepository historyPermissionRepository;
+    private UserRepository userRepository;
 
     public List<HistoryPermission> getAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ur.findByUsername(authentication.getName()).get();
-        return hpr.orderHistoryPermission(user.getEmployee().getId());
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        return historyPermissionRepository.orderHistoryPermission(user.getEmployee().getId());
     }
 
     public HistoryPermission getById(int id){
-        return hpr.findById(id)
+        return historyPermissionRepository.findById(id)
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
 
@@ -40,20 +40,20 @@ public class HistoryPermissionService {
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
         hp.setDate_history(ts);
-        hp.setEmployee(ur.findById(id).get().getEmployee());
-        return hpr.save(hp);
+        hp.setEmployee(userRepository.findById(id).get().getEmployee());
+        return historyPermissionRepository.save(hp);
     }
 
     public HistoryPermission update(int id, HistoryPermission historyPermission){
-        HistoryPermission hp = hpr.findById(id).get();
+        HistoryPermission hp = historyPermissionRepository.findById(id).get();
         getById(id);
         hp.setDate_history(historyPermission.getDate_history());
-        return hpr.save(historyPermission);
+        return historyPermissionRepository.save(historyPermission);
     }
 
     public HistoryPermission delete (int id){
         HistoryPermission historyPermission = getById(id);
-        hpr.delete(historyPermission);
+        historyPermissionRepository.delete(historyPermission);
         return historyPermission;
     }
 

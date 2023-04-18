@@ -16,21 +16,21 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PrivilegeService {
 
-    private PrivilegeRepository pr;
+    private PrivilegeRepository privilegeRepository;
 
     public List<Privilege> findAll(){
-        if(pr.findAll().isEmpty()){
+        if(privilegeRepository.findAll().isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data available.");
         }
 
-        for (Privilege privilege : pr.findAll()){
+        for (Privilege privilege : privilegeRepository.findAll()){
             privilege.getName();
         }
-        return pr.findAll();
+        return privilegeRepository.findAll();
     }
 
     public List<Map<String, Object>> getAllMap(){
-        return pr.findAll().stream().map(privilege -> {
+        return privilegeRepository.findAll().stream().map(privilege -> {
             Map<String, Object> m = new HashMap<>();
             m.put("privilegeId", privilege.getId());
             m.put("privilegeName", privilege.getName());
@@ -39,32 +39,32 @@ public class PrivilegeService {
     }
 
     public Privilege findById(Integer id){
-        if(!pr.existsById(id)){
+        if(!privilegeRepository.existsById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not existed.");
         }
-        return pr.findById(id).get();
+        return privilegeRepository.findById(id).get();
     }
 
     public Privilege insert (Privilege p){
-        if(pr.existsById(p.getId())){
+        if(privilegeRepository.existsById(p.getId())){
             throw new ResponseStatusException(HttpStatus.FOUND, "Data is existed");
         }
-        return pr.save(p);
+        return privilegeRepository.save(p);
     }
 
     public Privilege update (Privilege p){
-        if(!pr.existsById(p.getId())){
+        if(!privilegeRepository.existsById(p.getId())){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not existed.");
         }
-        return pr.save(p);
+        return privilegeRepository.save(p);
     }
 
     public String deleteById(Integer id){
-        if(!pr.existsById(id)){
+        if(!privilegeRepository.existsById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not existed.");
         }
         Privilege p = findById(id);
-        pr.deleteById(id);
+        privilegeRepository.deleteById(id);
         return "Delete for " + p.getName() + "has been successful.";
     }
 }
