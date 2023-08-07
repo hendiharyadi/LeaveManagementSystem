@@ -3,6 +3,7 @@ package Client.Client.services;
 import Client.Client.models.entities.Employee;
 import Client.Client.util.BasicHeader;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -16,13 +17,12 @@ import java.util.List;
 public class ManagerService {
     private RestTemplate restTemplate;
 
-    public List<Employee> getManagers(){
+    public List<Employee> getManagers() {
         return restTemplate.exchange(
-                "http://localhost:8081/api/role/managers",
+                "http://localhost:8082/api/role/managers",
                 HttpMethod.GET,
-                new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<Employee>>() {
-                }
-        ).getBody();
+                new HttpEntity<>(BasicHeader.createHeaders()),
+                new ParameterizedTypeReference<List<Employee>>()
+                {}).getBody();
     }
 }

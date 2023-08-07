@@ -1,4 +1,4 @@
-package mcc72.Server.controlleroleService;
+package mcc72.Server.controllers;
 
 import lombok.AllArgsConstructor;
 import mcc72.Server.models.entity.Role;
@@ -12,21 +12,21 @@ import java.util.Map;
 @RestController
 @RequestMapping("role")
 public class RoleController {
-
     private RoleService roleService;
 
+    //    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping
     public List<Map<String, Object>> getAllMap(){
         return roleService.getAllMap();
     }
 
-    @GetMapping("/getrolemanageroleService")
+    @GetMapping("/getrolemanagers")
     public Object getRoleManager(){
         return roleService.getRoleManager();
     }
 
-    @GetMapping("/manageroleService")
-    public Object getManageroleService(){
+    @GetMapping("/managers")
+    public Object getManagers(){
         return roleService.getRoleManager();
     }
 

@@ -18,7 +18,7 @@ public class ManagerController {
 
     @RequestMapping("/employee")
     public String managerEmployee(){
-        return "manager/manager-employyee";
+        return "manager/manager-employee";
     }
 
     @RequestMapping("/permission")

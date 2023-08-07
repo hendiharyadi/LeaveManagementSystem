@@ -20,7 +20,7 @@ public class HistoryPermissionService {
     private RestTemplate restTemplate;
 
     @Autowired
-    public HistoryPermissionService(RestTemplate restTemplate){
+    public HistoryPermissionService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -33,7 +33,7 @@ public class HistoryPermissionService {
                 }).getBody();
     }
 
-    public HistoryPermission getById(Integer id){
+    public HistoryPermission getById(int id){
         return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
                 new ParameterizedTypeReference<HistoryPermission>() {
                 }).getBody();

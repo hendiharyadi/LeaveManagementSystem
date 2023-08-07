@@ -15,19 +15,20 @@ import java.util.List;
 
 @Service
 public class HistoryOvertimeService {
+
     private RestTemplate restTemplate;
 
     @Autowired
-    public HistoryOvertimeService(RestTemplate restTemplate){
+    public HistoryOvertimeService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     @Value("${server.baseUrl}/history-overtime")
-    public String url;
+    private String url;
 
     public List<HistoryOvertimeResponse> getAll(){
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<HistoryOvertimeResponse>>() {
+                new ParameterizedTypeReference<List<HistoryOvertimeResponse>>(){
                 }).getBody();
     }
 

@@ -16,15 +16,14 @@ public class RoleService {
 
     @Value("${server.baseUrl}")
     private String url;
-
     @Autowired
-    public RoleService(RestTemplate restTemplate){
+    public RoleService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public List<RoleResponse> getRoles(){
-        return restTemplate.exchange(url + "/role", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<RoleResponse>>() {
-                }).getBody();
+        return restTemplate.exchange(url + "/role", HttpMethod.GET,
+                null, new ParameterizedTypeReference<List<RoleResponse>>() {}).getBody();
     }
+
 }

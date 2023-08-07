@@ -16,8 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/history/permission")
 @AllArgsConstructor
-@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER','ROLE_USER')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER', 'ROLE_USER')")
 public class RestHistoryPermissionController {
+
     private HistoryPermissionService hpService;
 
     @GetMapping
@@ -26,8 +27,7 @@ public class RestHistoryPermissionController {
     }
 
     @GetMapping("/{id}")
-    public HistoryPermission getById(@PathVariable Integer id){
+    public HistoryPermission getById(@PathVariable int id){
         return hpService.getById(id);
     }
-
 }

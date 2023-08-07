@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/employee")
 @AllArgsConstructor
+//@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
 public class EmployeeRestController {
     private ManagerService managerService;
     private EmployeeService employeeService;
@@ -29,8 +30,9 @@ public class EmployeeRestController {
         return employeeService.employeeLogin();
     }
 
+    //    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping("/{id}")
-    public Employee getById(@PathVariable Integer id){
+    public Employee getById(@PathVariable int id){
         return employeeService.getById(id);
     }
 
@@ -44,6 +46,11 @@ public class EmployeeRestController {
         return employeeService.getStock();
     }
 
+    @GetMapping("/get-stock")
+    public String test(){
+        return "Success";
+    }
+
     @GetMapping("/manager/list-staff")
     public List<EmployeeResponse> getStaff(){
         return employeeService.getMyStaff();
@@ -51,19 +58,19 @@ public class EmployeeRestController {
 
     @PreAuthorize("hasAuthority('CREATE_ADMIN')")
     @PostMapping
-    public Employee create(@RequestBody UserRegistrationDto employee){
+    public Employee create (@RequestBody UserRegistrationDto employee){
         return employeeService.create(employee);
     }
 
     @PreAuthorize("hasAuthority('UPDATE_ADMIN')")
-    @PutMapping
-    public Employee update(@PathVariable Integer id, @RequestBody UserRegistrationDto employee){
+    @PutMapping("/{id}")
+    public Employee update (@PathVariable int id, @RequestBody UserRegistrationDto employee){
         return employeeService.update(id, employee);
     }
 
     @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Integer id){
+    public String delete (@PathVariable int id){
         return employeeService.delete(id);
     }
 }

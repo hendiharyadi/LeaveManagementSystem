@@ -20,7 +20,7 @@ public class PermissionService {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public PermissionService(RestTemplate restTemplate){
+    public PermissionService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -29,36 +29,37 @@ public class PermissionService {
 
     public List<PermissionResponse> getAll(){
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<PermissionResponse>>() {
+                new ParameterizedTypeReference<List<PermissionResponse>>(){
                 }).getBody();
     }
+
 
     public List<Permission> getAllByManager(){
         return restTemplate.exchange(url + "/manager", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<Permission>>() {
+                new ParameterizedTypeReference<List<Permission>>(){
                 }).getBody();
     }
 
-    public PermissionResponse getById(Integer id){
+    public PermissionResponse getById(int id){
         return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
                 new ParameterizedTypeReference<PermissionResponse>() {
                 }).getBody();
     }
 
-    public PermissionResponse create(PermissionDto permission){
+    public PermissionResponse create(PermissionDto permission) {
         return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(permission),
                 new ParameterizedTypeReference<PermissionResponse>() {
                 }).getBody();
     }
 
-    public PermissionResponse update(Integer id, PermissionDto permission){
-        return restTemplate.exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(permission),
+    public PermissionResponse update(int id, PermissionDto permisssion) {
+        return restTemplate.exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(permisssion),
                 new ParameterizedTypeReference<PermissionResponse>() {
                 }).getBody();
     }
 
-    public Permission delete(Integer id){
-        return restTemplate.exchange(url + "/" + id, HttpMethod.DELETE, null,
+    public Permission delete(int id) {
+        return restTemplate.exchange(url + "/"+id, HttpMethod.DELETE, null,
                 new ParameterizedTypeReference<Permission>() {
                 }).getBody();
     }

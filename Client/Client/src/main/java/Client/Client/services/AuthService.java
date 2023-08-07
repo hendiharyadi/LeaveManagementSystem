@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,35 +29,36 @@ public class AuthService {
     private String url;
 
     @Autowired
-    public AuthService(RestTemplate restTemplate){
+    public AuthService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public void setPrinciple(Map<String, List<String>> res, LoginRequest loginRequest){
-        List<GrantedAuthority> authorities = res.get("authorities")
-                .stream().map(authority -> new SimpleGrantedAuthority(authority.toString()))
-                .collect(Collectors.toList());
-
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(),
-                loginRequest.getPassword(),
-                authorities
-        );
-    }
-
-    public Boolean userSignIn(LoginRequest loginRequest) throws Exception{
-        try{
+    public Boolean userSignIn(LoginRequest loginRequest) throws Exception {
+        try {
             ResponseEntity<Map<String, List<String>>> response = restTemplate.exchange(url + "/login", HttpMethod.POST, new HttpEntity<>(loginRequest),
-                    new ParameterizedTypeReference<Map<String, List<String>>>() {
-            });
-            if(response.getStatusCode() == HttpStatus.OK){
+                    new ParameterizedTypeReference<Map<String, List<String>>>() {});
+            if (response.getStatusCode() == HttpStatus.OK){
                 setPrinciple(response.getBody(), loginRequest);
                 System.out.println("login");
                 return true;
             }
-        } catch(Exception e){
-            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e){
+            System.out.println("Error : " + e.getMessage());
         }
         return false;
+    }
+
+    public void setPrinciple(Map<String, List<String>> res, LoginRequest loginRequest) {
+        List<GrantedAuthority> authorities = res.get("authorities")
+                .stream().map(authority -> new SimpleGrantedAuthority(authority.toString()))
+                .collect(Collectors.toList());
+
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword(),
+                        authorities);
+
+        SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 }

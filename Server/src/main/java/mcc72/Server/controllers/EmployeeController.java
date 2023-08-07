@@ -18,7 +18,7 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @RequestMapping("employee")
-@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN', 'ROLE_USER')")
+//@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN', 'ROLE_USER')")
 public class EmployeeController {
 
     private EmployeeService employeeService;
@@ -31,7 +31,7 @@ public class EmployeeController {
         return employeeService.getAllMap();
     }
 
-    @PreAuthorize("hasAuthority('READ_ADMIN')")
+//    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping("/dashboard")
     public Map<String, Object> getEmployee(){
         return employeeService.getEmployee();

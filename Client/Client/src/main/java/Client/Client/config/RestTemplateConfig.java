@@ -16,6 +16,7 @@ public class RestTemplateConfig {
     @Bean
     public RestTemplate restTemplate(){
         RestTemplate restTemplate = new RestTemplate();
+
         List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
 
         if(CollectionUtils.isEmpty(interceptors)){
@@ -23,7 +24,7 @@ public class RestTemplateConfig {
         }
 
         interceptors.add(new RequestInterceptor());
-        restTemplate.setInterceptors((interceptors));
+        restTemplate.setInterceptors(interceptors);
         return restTemplate;
     }
 }

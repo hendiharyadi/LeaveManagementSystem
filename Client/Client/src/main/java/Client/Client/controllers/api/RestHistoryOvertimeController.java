@@ -14,8 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/history/overtime")
 @AllArgsConstructor
-@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER','ROLE_USER')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER', 'ROLE_USER')")
 public class RestHistoryOvertimeController {
+
     private HistoryOvertimeService hoService;
 
     @GetMapping
@@ -24,7 +25,8 @@ public class RestHistoryOvertimeController {
     }
 
     @GetMapping("/{id}")
-    public HistoryOvertimeResponse getById(@PathVariable Integer id){
+    public HistoryOvertimeResponse getById(@PathVariable int id){
         return hoService.getById(id);
     }
 }
+

@@ -17,10 +17,11 @@ import java.util.List;
 
 @Service
 public class EmployeeService {
+
     private RestTemplate restTemplate;
 
     @Autowired
-    public EmployeeService(RestTemplate restTemplate){
+    public EmployeeService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -29,20 +30,20 @@ public class EmployeeService {
 
     public List<Employee> getAll(){
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<Employee>>() {
+                new ParameterizedTypeReference<List<Employee>>(){
                 }).getBody();
     }
 
     public List<EmployeeResponse> getMyStaff(){
         return restTemplate.exchange(url + "/manager/list-staff", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<EmployeeResponse>>() {
+                new ParameterizedTypeReference<List<EmployeeResponse>>(){
                 }).getBody();
     }
 
     public StockResponse getStock(){
         System.out.println("Stock");
-        return restTemplate.exchange(url + "/employee/stock-leave", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<StockResponse>() {
+        return restTemplate.exchange("http://localhost:8081/api/employee/stock-leave", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
+                new ParameterizedTypeReference<StockResponse>(){
                 }).getBody();
     }
 
@@ -53,25 +54,25 @@ public class EmployeeService {
     }
 
     public Employee employeeLogin(){
-        return restTemplate.exchange(url + "/dashboard", HttpMethod.GET, null,
+        return restTemplate.exchange(url + "/dashboard" , HttpMethod.GET, null,
                 new ParameterizedTypeReference<Employee>() {
                 }).getBody();
     }
 
-    public Employee create(UserRegistrationDto employee){
+    public Employee create(UserRegistrationDto employee) {
         return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(employee),
                 new ParameterizedTypeReference<Employee>() {
                 }).getBody();
     }
 
-    public Employee update(Integer id, UserRegistrationDto employee){
+    public Employee update(int id, UserRegistrationDto employee) {
         return restTemplate.exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(employee),
                 new ParameterizedTypeReference<Employee>() {
                 }).getBody();
     }
 
-    public String delete(Integer id){
-        return restTemplate.exchange(url + "/" + id, HttpMethod.DELETE, null,
+    public String delete(int id) {
+        return restTemplate.exchange(url + "/"+id, HttpMethod.DELETE, null,
                 new ParameterizedTypeReference<String>() {
                 }).getBody();
     }

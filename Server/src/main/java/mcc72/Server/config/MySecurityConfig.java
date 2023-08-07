@@ -30,8 +30,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/api/user/**").permitAll()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
                 .and()
                 .httpBasic();
     }

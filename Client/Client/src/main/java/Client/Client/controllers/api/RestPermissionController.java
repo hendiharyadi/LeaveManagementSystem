@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/permission")
 @AllArgsConstructor
-@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MANAGER')")
+@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MANAGER')")
 public class RestPermissionController {
 
     private PermissionService permissionService;
@@ -32,25 +32,25 @@ public class RestPermissionController {
     }
 
     @GetMapping("/{id}")
-    public PermissionResponse getById(@PathVariable Integer id){
+    public PermissionResponse getById(@PathVariable int id){
         return permissionService.getById(id);
     }
 
-    @PreAuthorize("hasAnyAuthority('CREATE_USER','CREATE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CREATE_USER', 'CREATE_MANAGER')")
     @PostMapping
-    public PermissionResponse create(@RequestBody PermissionDto permission){
+    public PermissionResponse create (@RequestBody PermissionDto permission){
         return permissionService.create(permission);
     }
 
     @PreAuthorize("hasAuthority('UPDATE_MANAGER')")
     @PutMapping("/{id}")
-    public PermissionResponse update (@PathVariable Integer id, @RequestBody PermissionDto permission){
+    public PermissionResponse update (@PathVariable int id, @RequestBody PermissionDto permission){
         return permissionService.update(id, permission);
     }
 
     @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     @DeleteMapping("/{id}")
-    public Permission delete(@PathVariable Integer id){
+    public Permission delete (@PathVariable int id){
         return permissionService.delete(id);
     }
 

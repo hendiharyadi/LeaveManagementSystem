@@ -11,22 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/error")
-public class ErrorPageController implements ErrorController {
+public class ErrorPageController implements ErrorController{
 
     @GetMapping
-    public String handleError(HttpServletRequest request){
+    public String handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
-        if(status != null){
+        if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
 
-            if (statusCode == HttpStatus.UNAUTHORIZED.value()){
+            if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
                 return "error/401";
-            } else if (statusCode == HttpStatus.FORBIDDEN.value()){
+            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "error/404";
-            } else if (statusCode == HttpStatus.NOT_FOUND.value()){
+            } else if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 return "error/404";
-            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()){
+            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "error/500";
             }
         }

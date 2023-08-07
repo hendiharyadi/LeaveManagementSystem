@@ -17,20 +17,22 @@ public class LoginController {
 
     private AuthService authService;
 
-    @GetMapping("login")
-    public String loginView(@RequestParam(required = false) String error, LoginRequest loginRequest, Authentication auth){
-        if (auth == null || auth instanceof AnonymousAuthenticationToken){
+    @GetMapping("/login")
+    public String loginView(@RequestParam(required = false) String error, LoginRequest loginRequest, Authentication auth) {
+        if (auth == null || auth instanceof AnonymousAuthenticationToken) {
             return "auth/login";
         }
         return "redirect:/dashboard";
     }
 
     @PostMapping("/login")
-    public String login(LoginRequest loginRequest) throws Exception{
+    public String login(LoginRequest loginRequest) throws Exception {
         Boolean isLogin = authService.userSignIn(loginRequest);
-        if(!isLogin){
+        if (!isLogin) {
             return "redirect:/login?error=true";
         }
         return "redirect:/dashboard";
     }
+
+
 }

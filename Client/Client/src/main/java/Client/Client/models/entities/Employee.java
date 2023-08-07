@@ -15,7 +15,7 @@ public class Employee {
     private String last_name;
     private String email;
     private String phone_number;
-    private UserEntity user;
+    private User user;
     private List<Employee> managers;
     private Employee manager;
     private List<Project> employeeProject;

@@ -21,7 +21,7 @@ public class ProjectService {
     private RestTemplate restTemplate;
 
     @Autowired
-    public ProjectService(RestTemplate restTemplate){
+    public ProjectService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -30,36 +30,36 @@ public class ProjectService {
 
     public List<ProjectResponse> getAll(){
         return restTemplate.exchange(url + "/manager", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<ProjectResponse>>() {
+                new ParameterizedTypeReference<List<ProjectResponse>>(){
                 }).getBody();
     }
 
-    public List<Employee> getAllMembers(Integer id){
+    public List<Employee> getAllMembers(int id){
         return restTemplate.exchange(url + "/members/" + id, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<Employee>>() {
+                new ParameterizedTypeReference<List<Employee>>(){
                 }).getBody();
     }
 
-    public ProjectResponse getById(Integer id){
+    public ProjectResponse getById(int id){
         return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
                 new ParameterizedTypeReference<ProjectResponse>() {
                 }).getBody();
     }
 
-    public Project create(ProjectDto project){
-        return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(BasicHeader.createHeaders()),
+    public Project create(ProjectDto project) {
+        return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(project),
                 new ParameterizedTypeReference<Project>() {
                 }).getBody();
     }
 
-    public Project update(Integer id, ProjectDto project){
+    public Project update(int id, ProjectDto project) {
         return restTemplate.exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(project),
                 new ParameterizedTypeReference<Project>() {
                 }).getBody();
     }
 
-    public Project delete(Integer id){
-        return restTemplate.exchange(url + "/" + id, HttpMethod.DELETE, null,
+    public Project delete(int id) {
+        return restTemplate.exchange(url + "/"+id, HttpMethod.DELETE, null,
                 new ParameterizedTypeReference<Project>() {
                 }).getBody();
     }

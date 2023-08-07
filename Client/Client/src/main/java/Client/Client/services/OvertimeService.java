@@ -19,7 +19,7 @@ public class OvertimeService {
     private RestTemplate restTemplate;
 
     @Autowired
-    public OvertimeService(RestTemplate restTemplate){
+    public OvertimeService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -28,36 +28,37 @@ public class OvertimeService {
 
     public List<Overtime> getAll(){
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<Overtime>>() {
+                new ParameterizedTypeReference<List<Overtime>>(){
                 }).getBody();
     }
+
 
     public List<Overtime> getAllByManager(){
         return restTemplate.exchange(url + "/manager", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<Overtime>>() {
+                new ParameterizedTypeReference<List<Overtime>>(){
                 }).getBody();
     }
 
-    public Overtime getById(Integer id){
+    public Overtime getById(int id){
         return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
                 new ParameterizedTypeReference<Overtime>() {
                 }).getBody();
     }
 
-    public Overtime create(OvertimeDto overtime){
+    public Overtime create(OvertimeDto overtime) {
         return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(overtime),
                 new ParameterizedTypeReference<Overtime>() {
                 }).getBody();
     }
 
-    public Overtime update(Integer id, OvertimeDto overtime){
+    public Overtime update(int id, OvertimeDto overtime) {
         return restTemplate.exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(overtime),
                 new ParameterizedTypeReference<Overtime>() {
                 }).getBody();
     }
 
-    public Overtime delete(Integer id){
-        return restTemplate.exchange(url + "/" + id, HttpMethod.DELETE, null,
+    public Overtime delete(int id) {
+        return restTemplate.exchange(url + "/"+id, HttpMethod.DELETE, null,
                 new ParameterizedTypeReference<Overtime>() {
                 }).getBody();
     }

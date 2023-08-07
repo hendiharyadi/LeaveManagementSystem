@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @AllArgsConstructor
 public class MainController {
-
     private EmployeeService employeeService;
 
     @RequestMapping
@@ -28,7 +27,6 @@ public class MainController {
         model.addAttribute("employee", employeeService.employeeLogin());
         return "index";
     }
-
     @RequestMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String getAdmin(){

@@ -17,7 +17,7 @@ public class UserController {
 
     private UserService userService;
 
-    @PreAuthorize("hasAuthority('READ_USER')")
+    @PreAuthorize("hasAnyAuthority('READ_USER','READ_ADMIN')")
     @GetMapping
     public List<Map<String, Object>> getAllMap(){
         return userService.getAllMap();
