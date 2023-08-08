@@ -237,7 +237,8 @@ const checkStock = async () => {
 const getStock = async () => {
   const stockWrapper = document.getElementById("table-stock-wrapper");
   stockWrapper.inner = "";
-  const res = await fetch(`/api/employee/stock-leave`);
+  const res = await fetch(`/api/employee/stock-leave`
+  );
   const data = res.json();
   const json = await data;
   const { stock_available } = json;

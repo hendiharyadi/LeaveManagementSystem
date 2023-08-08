@@ -42,7 +42,7 @@ public class EmployeeService {
 
     public StockResponse getStock(){
         System.out.println("Stock");
-        return restTemplate.exchange("http://localhost:8081/api/employee/stock-leave", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
+        return restTemplate.exchange("http://localhost:8082/api/employee/stock-leave", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
                 new ParameterizedTypeReference<StockResponse>(){
                 }).getBody();
     }

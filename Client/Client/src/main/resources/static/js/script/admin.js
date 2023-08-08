@@ -153,7 +153,7 @@ const postData = async () => {
         icon: "error",
         title: "Oops...",
         text: "Something went wrong!",
-      });
+      }).then(function(){window.location = "/admin";});
       btnSpinner.classList.add("d-none");
       btnClose.removeAttribute("disabled");
       btnSubmit.classList.remove("d-none");
@@ -173,8 +173,8 @@ const getAllEmployees = () => {
     success: (results) => {
       let i = 0;
       const filteredUser = results
-        .filter((e) => e.user.userRole[0].id !== 3)
-        .sort((a, b) => b.id - a.id);
+        // .filter((e) => e.user.userRole[0].id != 3)
+        // .sort((a, b) => a.id - b.id);
       filteredUser.forEach((emp) => {
         i += 1;
         tableWrapper.innerHTML += `<tr>
@@ -216,7 +216,7 @@ const getAllEmployees = () => {
         icon: "error",
         title: "Oops...",
         text: "Something went wrong!",
-      });
+      }).then(function(){window.location = "/dashboard";});;
       console.log({ xhr, ajaxOptions, thrownError });
     },
   });

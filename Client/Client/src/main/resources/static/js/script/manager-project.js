@@ -167,7 +167,7 @@ const getAllProject = () => {
         icon: "error",
         title: "Oops...",
         text: "Something went wrong!",
-      });
+      }).then(function(){window.location = "/manager";});
       console.log({ xhr, ajaxOptions, thrownError });
     },
   });

@@ -177,7 +177,7 @@
                   ><span class="hide-menu">Manager Page</span></a
                 >
               </li>
-              <li class="sidebar-item">
+              <li class="sidebar-item" sec:authorize="hasAnyRole('MANAGER', 'USER')">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
                   href="/permission"
@@ -186,7 +186,7 @@
                   ><span class="hide-menu">Leave Request</span></a
                 >
               </li>
-              <li class="sidebar-item">
+              <li class="sidebar-item" sec:authorize="hasAnyRole('MANAGER', 'USER')">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
                   href="/overtime"
@@ -195,7 +195,7 @@
                   ><span class="hide-menu">Overtime Request</span></a
                 >
               </li>
-              <li class="sidebar-item">
+              <li class="sidebar-item" sec:authorize="hasAnyRole('MANAGER', 'USER')">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
                   href="/history"
@@ -252,7 +252,7 @@
           <!-- ============================================================== -->
           <!-- Sales chart -->
           <!-- ============================================================== -->
-          <div class="row" sec:authorize="hasRole('ADMIN')">
+          <!-- <div class="row" sec:authorize="hasRole('ADMIN')">
             <div class="col-lg-8">
               <div class="card">
                 <div class="card-body">
@@ -306,10 +306,10 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div
             class="row"
-            sec:authorize="hasAnyRole('MANAGER', 'USER')"
+            sec:authorize="hasAnyRole('ADMIN', 'MANAGER', 'USER')"
           >
             <div class="col-lg-5">
               <div class="d-flex align-items-start">
@@ -469,7 +469,7 @@
                       <div class="">
                         <span class="text-dark"
                           >Email: <br />
-                          freemonday@yopmail.com</span
+                          freemondayfm@gmail.com</span
                         >
                       </div>
                     </div>
