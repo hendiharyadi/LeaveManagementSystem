@@ -55,7 +55,7 @@ public class PermissionService {
             throw new Error("Your cuti quota has been running out. Please wait until next year.");
         } else {
             Permission permit = new Permission();
-            permit.setLeave_Type(lt);
+            permit.setLeave_type(lt);
             permit.setStart_leave(permission.getStart_leave());
             permit.setEnd_leave(permission.getEnd_leave());
             permit.setNote(permission.getNote());

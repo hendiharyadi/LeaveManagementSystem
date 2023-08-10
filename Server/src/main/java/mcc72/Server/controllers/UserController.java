@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/verify/{username}/{token}")
     public String verify(@PathVariable String username,@PathVariable String token){
-        Boolean isActivated = userService.verify(username,token);
+        boolean isActivated = userService.verify(username,token);
         return isActivated ? "Account Activated." : "Invalid Verification Code.";
     }
 

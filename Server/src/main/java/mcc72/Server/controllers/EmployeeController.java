@@ -67,7 +67,7 @@ public class EmployeeController {
         return employeeService.findMyStaffPermission();
     }
 
-    @PreAuthorize("hasAuthority('READ_ADMIN')")
+//    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping("/{id}")
     public Object getById(@PathVariable int id) {
         return employeeService.findById(id);

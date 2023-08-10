@@ -9,8 +9,8 @@ const loadedData = async () => {
 const loadTable = async () => {
   await getStock();
   document
-    .getElementById("trigger-addPermission")
-    .addEventListener("click", preAddPermission);
+      .getElementById("trigger-addPermission")
+      .addEventListener("click", preAddPermission);
 
   try {
     const res = await fetch(URL);
@@ -33,12 +33,12 @@ const loadTable = async () => {
       json.forEach((p) => {
         i += 1;
         tableWrapper.innerHTML += tableContent(
-          i,
-          p.id,
-          p.leave_type,
-          p.start_leave,
-          p.end_leave,
-          p.status
+            i,
+            p.id,
+            p.leave_type,
+            p.start_leave,
+            p.end_leave,
+            p.status
         );
       });
     } else {
@@ -125,9 +125,9 @@ const submitPermission = async () => {
   }
 
   if (
-    leave_type.length !== 1 ||
-    start_leave.length === 0 ||
-    end_leave.length === 0
+      leave_type.length !== 1 ||
+      start_leave.length === 0 ||
+      end_leave.length === 0
   ) {
     Swal.fire({
       icon: "error",
@@ -237,8 +237,7 @@ const checkStock = async () => {
 const getStock = async () => {
   const stockWrapper = document.getElementById("table-stock-wrapper");
   stockWrapper.inner = "";
-  const res = await fetch(`/api/employee/stock-leave`
-  );
+  const res = await fetch(`/api/employee/stock-leave`);
   const data = res.json();
   const json = await data;
   const { stock_available } = json;

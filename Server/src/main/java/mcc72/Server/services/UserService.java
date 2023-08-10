@@ -105,7 +105,7 @@ public class UserService implements UserDetailsService {
         mailSender.send(messagePreparator);
     }
 
-    public Boolean verify(String username, String token){
+    public boolean verify(String username, String token){
         String tokenDB = userRepository.findByUsername(username).get().getVerificationCode();
         int id = userRepository.findByUsername(username).get().getId();
         User user = userRepository.findByUsername(username).get();

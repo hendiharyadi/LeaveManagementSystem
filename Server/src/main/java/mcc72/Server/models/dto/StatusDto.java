@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StatusDto {
 
-    private Boolean status;
+    private boolean status;
 }
