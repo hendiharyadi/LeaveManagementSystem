@@ -105,11 +105,11 @@ const submitPermission = async () => {
     const start = new Date(start_leave).getTime();
     const end = new Date(end_leave).getTime();
     leave_day = days(end, start);
-    if (leave_day > stock || leave_day === stock) {
+    if (leave_day > stock || leave_day === stock || end === start) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Can't request for cuti because the amount of cuti requested is bigger than the amount of cuti left.",
+        text: "Can't request for cuti because the amount of cuti requested is bigger than the amount of cuti left and/or equals 0 days.",
       });
       return;
     }

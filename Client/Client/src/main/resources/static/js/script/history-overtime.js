@@ -21,7 +21,7 @@ const onLoadPage = async () => {
             moment(date).format("lll"),
             moment(e.overtime.start_overtime).format("lll"),
             moment(e.overtime.end_overtime).format("lll"),
-            e.status
+            e.overtime.status
           );
         });
     } else {

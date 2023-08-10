@@ -23,7 +23,7 @@ public class ProjectController {
         return projectService.getAllProject();
     }
 
-    @PreAuthorize("hasAuthority('READ_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_MANAGER')")
     @GetMapping("/manager")
     public Object getAll(){
         return projectService.getAll();

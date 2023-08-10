@@ -21,7 +21,7 @@ const loadPage = async () => {
             moment(e.date_history).format("lll"),
             moment(e.permission.start_leave).format("ll"),
             moment(e.permission.end_leave).format("ll"),
-            e.status
+            e.permission.status
           );
         });
     } else {
